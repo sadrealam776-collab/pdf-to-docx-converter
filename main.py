@@ -1,20 +1,25 @@
 from fastapi import FastAPI, UploadFile, File
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, HTMLResponse
+from fastapi.staticfiles import StaticFiles
 from pdf2docx import Converter
 import os
 import uuid
 
 app = FastAPI()
 
-UPLOAD_DIR = "uploads"
-OUTPUT_DIR = "output"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+UPLOAD_DIR = os.path.join(BASE_DIR, "uploads")
+OUTPUT_DIR = os.path.join(BASE_DIR, "output")
 
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-@app.get("/")
+# Serve index.html at homepage
+@app.get("/", response_class=HTMLResponse)
 def home():
-    return {"message": "PDF to DOCX API is running"}
+    with open("index.html", "r", encoding="utf-8") as f:
+        return f.read()
 
 @app.post("/convert")
 async def convert_pdf(file: UploadFile = File(...)):
@@ -47,3 +52,4 @@ async def convert_pdf(file: UploadFile = File(...)):
         filename="converted.docx",
         media_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
     )
+
