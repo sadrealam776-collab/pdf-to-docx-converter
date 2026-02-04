@@ -1,3 +1,4 @@
+import time
 from fastapi import FastAPI, UploadFile, File
 from fastapi.responses import FileResponse, HTMLResponse
 from fastapi.staticfiles import StaticFiles
@@ -20,8 +21,17 @@ os.makedirs(OUTPUT_DIR, exist_ok=True)
 def home():
     with open("index.html", "r", encoding="utf-8") as f:
         return f.read()
+def cleanup_old_files(folder, seconds=600):  # 10 minutes
+    now = time.time()
+    for f in os.listdir(folder):
+        path = os.path.join(folder, f)
+        if os.path.isfile(path) and now - os.path.getmtime(path) > seconds:
+            os.remove(path)
 
 @app.post("/convert")
+cleanup_old_files(UPLOAD_DIR)
+cleanup_old_files(OUTPUT_DIR)
+
 if file.size and file.size > 5 * 1024 * 1024:
     return {"error": "PDF too large. Max 5MB allowed."}
 
@@ -51,5 +61,6 @@ converter.close()
         filename="converted.docx",
         media_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
     )
+
 
 
