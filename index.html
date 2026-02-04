@@ -47,9 +47,23 @@
 
         <input type="file" name="file" accept=".pdf" required>
         <br>
-        <button type="submit">Convert & Download</button>
+        <button type="submit" onclick="showLoading()">
+    Convert & Download
+</button>
+
+<p id="loading" style="display:none;color:green;">
+    ⏳ Converting… please wait
+</p>
+
+<script>
+function showLoading() {
+    document.getElementById("loading").style.display = "block";
+}
+</script>
+
     </form>
 </div>
 
 </body>
 </html>
+
