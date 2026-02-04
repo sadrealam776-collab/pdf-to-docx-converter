@@ -22,6 +22,9 @@ def home():
         return f.read()
 
 @app.post("/convert")
+if file.size and file.size > 5 * 1024 * 1024:
+    return {"error": "PDF too large. Max 5MB allowed."}
+
 async def convert_pdf(file: UploadFile = File(...)):
     if not file.filename.lower().endswith(".pdf"):
         return {"error": "Only PDF files are allowed"}
@@ -36,15 +39,11 @@ async def convert_pdf(file: UploadFile = File(...)):
 
     # Convert PDF to DOCX
     converter = Converter(pdf_path)
-    converter.convert(
+converter.convert(
     docx_path,
-    start=0,
-    end=None,
-    keep_blank_chars=True,
-    layout=True
+    keep_blank_chars=True
 )
-
-    converter.close()
+converter.close()
 
     # Return DOCX as download
     return FileResponse(
@@ -52,4 +51,5 @@ async def convert_pdf(file: UploadFile = File(...)):
         filename="converted.docx",
         media_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
     )
+
 
