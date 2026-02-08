@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>PDF to DOCX Converter</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+* {
+    box-sizing: border-box;
+    font-family: "Segoe UI", system-ui, sans-serif;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* Main Card */
+.card {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px);
+    border-radius: 18px;
+    padding: 30px;
+    width: 100%;
+    max-width: 420px;
+    color: #fff;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+    text-align: center;
+}
+
+/* Title */
+.card h1 {
+    font-size: 26px;
+    margin-bottom: 10px;
+}
+
+.card h1 span {
+    color: #ffd86b;
+}
+
+/* Description */
+.card p {
+    font-size: 14px;
+    line-height: 1.5;
+    opacity: 0.9;
+}
+
+/* Upload box */
+.upload {
+    margin: 20px 0;
+    padding: 20px;
+    border: 2px dashed rgba(255,255,255,0.4);
+    border-radius: 12px;
+}
+
+/* Input */
+input[type="file"] {
+    width: 100%;
+    color: white;
+}
+
+/* Button */
+button {
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    background: linear-gradient(135deg, #ffd86b, #ff9f43);
+    color: #000;
+    margin-top: 15px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+/* Loading */
+#loading {
+    display: none;
+    margin-top: 15px;
+    font-size: 14px;
+    color: #c3ffb4;
+}
+
+/* Footer */
+.footer {
+    margin-top: 20px;
+    font-size: 12px;
+    opacity: 0.7;
+}
+
+/* Feature list */
+.features {
+    text-align: left;
+    margin-top: 15px;
+    font-size: 13px;
+}
+
+.features li {
+    margin-bottom: 6px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+    <h1><span>PDF</span> to DOCX</h1>
+
+    <p>
+        Convert your PDF files into fully editable Word documents.
+        Fast, secure, and simple to use.
+    </p>
+
+    <ul class="features">
+        <li>?? Accurate text conversion</li>
+        <li>? Fast processing</li>
+        <li>?? Files auto-deleted</li>
+        <li>?? Works on mobile & desktop</li>
+    </ul>
+
+    <form action="/convert" method="post" enctype="multipart/form-data" onsubmit="showLoading()">
+        <div class="upload">
+            <input type="file" name="file" accept=".pdf" required>
+        </div>
+
+        <button type="submit">Convert & Download</button>
+    </form>
+
+    <div id="loading">? Converting… please wait</div>
+
+    <div class="footer">
+        Max size: 5MB • Free tool • More converters coming soon
+    </div>
+</div>
+
+<script>
+function showLoading() {
+    document.getElementById("loading").style.display = "block";
+}
+</script>
+
+</body>
+</html>
