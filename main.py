@@ -1,3 +1,4 @@
+from fastapi.responses import HTMLResponse
 from fastapi import FastAPI, UploadFile, File
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
@@ -24,9 +25,9 @@ def cleanup_old_files(folder, seconds=600):  # 10 minutes
             os.remove(path)
 
 # ---------------- HOME ----------------
-@app.get("/")
-def home():
-    return {"status": "API is running"}
+@app.get("/", response_class=HTMLResponse)
+def website():
+    return open("static/index.html", "r", encoding="utf-8").read()
 
 # ---------------- CONVERT ----------------
 @app.post("/convert")
@@ -70,3 +71,4 @@ async def convert_pdf(file: UploadFile = File(...)):
         media_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
         filename=os.path.basename(docx_path)
     )
+
